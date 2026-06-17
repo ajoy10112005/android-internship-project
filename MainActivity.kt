@@ -12,30 +12,36 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.myinternshipapp.ui.theme.MyInternshipAppTheme
-
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
+import androidx.compose.material3.TextField
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Alignment
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
-            MyInternshipAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
+    setContent {
+        StudentRegistration()
+    }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun StudentRegistration() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("Student Registration")
+        TextField(value = "", onValueChange = {}, label = { Text("Name") })
+        TextField(value = "", onValueChange = {}, label = { Text("Email") })
+        Button(onClick = {}) {
+            Text("Submit")
+        }
+    }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -43,6 +49,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 fun GreetingPreview() {
     // Added explicit theme wrapper to ensure it's used in preview
     MyInternshipAppTheme {
-        Greeting("Android")
+        StudentRegistration()
     }
 }
