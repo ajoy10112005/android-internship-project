@@ -18,12 +18,14 @@ import androidx.compose.material3.TextField
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
+import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
     setContent {
-        StudentRegistration()
+        UserScreen()
     }
     }
 }
@@ -50,5 +52,24 @@ fun GreetingPreview() {
     // Added explicit theme wrapper to ensure it's used in preview
     MyInternshipAppTheme {
         StudentRegistration()
+    }
+}
+@Composable
+fun UserScreen() {
+
+    var users by remember { mutableStateOf<List<User>>(emptyList()) }
+
+    LaunchedEffect(Unit) {
+        users = RetrofitClient.api.getUsers()
+    }
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        users.forEach { user ->
+            Text(text = user.name)
+        }
     }
 }
