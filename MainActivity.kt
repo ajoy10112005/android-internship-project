@@ -58,9 +58,16 @@ fun GreetingPreview() {
 fun UserScreen() {
 
     var users by remember { mutableStateOf<List<User>>(emptyList()) }
+    var isLoading by remember { mutableStateOf(true) }
+    var error by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
-        users = RetrofitClient.api.getUsers()
+        try {
+            users = RetrofitClient.api.getUsers()
+        } catch (e: Exception) {
+            error = "Failed to load data"
+        }
+        isLoading = false
     }
 
     Column(
@@ -68,8 +75,14 @@ fun UserScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        users.forEach { user ->
-            Text(text = user.name)
+        when {
+            isLoading -> Text("Loading...")
+            error.isNotEmpty() -> Text(error)
+            else -> {
+                users.forEach { user ->
+                    Text(text = user.name)
+                }
+            }
         }
     }
 }
